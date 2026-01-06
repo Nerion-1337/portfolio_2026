@@ -5,21 +5,61 @@ import { personalInfo } from "../data/data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from 'lucide-react';
 
+
 const NavLink = ({ to, children, onClick }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
+
+  const specialTextSize = "text-[0.85rem]"; 
 
   return (
     <Link 
       to={to} 
       onClick={onClick}
-      className="relative group px-1 py-2 block w-full md:w-auto text-center md:text-left"
+      className="group relative px-2 py-2 block" 
     >
-      <span className={`relative z-10 transition-colors duration-300 ${isActive ? "text-blue-400 font-bold" : "text-gray-300 group-hover:text-white"}`}>
-        {children}
-      </span>
-      <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-400 transition-all duration-300 ease-out hidden md:block ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
-      <span className="absolute inset-0 bg-blue-400/0 group-hover:bg-blue-400/5 rounded-lg transition-colors duration-300 z-0" />
+      <div className="relative overflow-hidden">
+        
+        {/* 1. LE FANTÔME (Invisible)
+           DOIT avoir la même taille que le texte spécial pour définir la bonne largeur.
+        */}
+        <div className={`opacity-0 select-none font-bold uppercase tracking-wider ${specialTextSize} px-1 py-1`}>
+          {children}
+        </div>
+
+        {/* 2. L'ASCENSEUR (Animation) */}
+        <motion.div
+          // Logique inversée maintenue
+          initial={false}
+          animate={{ y: isActive ? "-100%" : "0%" }}
+          whileHover={{ y: isActive ? "0%" : "-100%" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="absolute inset-0 h-full w-full"
+        >
+          {/* FACE A : Texte Normal */}
+          <div className="h-full w-full flex items-center justify-center">
+            <span className={`whitespace-nowrap ${
+               isActive ? "text-blue-400 font-bold" : "text-gray-300"
+            }`}>
+              {children}
+            </span>
+          </div>
+
+          {/* FACE B : Texte Spécial */}
+          <div className="h-full w-full flex items-center justify-center">
+            {/* On applique la nouvelle taille ici */}
+            <span className={`text-blue-400 font-bold uppercase tracking-wider whitespace-nowrap ${specialTextSize}`}>
+              {children}
+            </span>
+          </div>
+        </motion.div>
+      </div>
+      
+      <span
+        className={`absolute bottom-0 left-0 h-0.5 bg-blue-400 transition-all duration-300 ease-out
+          ${isActive ? "w-full" : "w-0"}
+        `}
+      />
     </Link>
   );
 };
@@ -51,7 +91,7 @@ const Layout = ({ children }) => {
             </motion.h1>
           </Link>
 
-          <div className="hidden md:flex space-x-8 items-center">
+          <div className="hidden md:flex space-x-2 items-center">
             <NavLink to="/">Accueil</NavLink>
             <NavLink to="/about">A propos</NavLink>
             <NavLink to="/projets">Projets</NavLink>
@@ -83,18 +123,20 @@ const Layout = ({ children }) => {
       </main>
 
       {/* FOOTER INTELLIGENT */}
-      <footer 
-        className={`
-          w-full p-4 text-center text-gray-600 text-xs z-40 bg-transparent pointer-events-none
-          ${isFixedFooter ? 'fixed bottom-0' : 'relative mt-auto py-8'} 
-        `}
-      >
-        {/* pointer-events-auto permet de sélectionner le texte du footer même si le container est "none" */}
-        <p className="pointer-events-auto">© 2026 Thibaut Senechal — Développé avec React & Tailwind</p>
-      </footer>
+
 
     </div>
   );
 };
 
 export default Layout;
+
+      // <footer 
+      //   className={`
+      //     w-full p-4 text-center text-gray-600 text-xs z-40 bg-transparent pointer-events-none
+      //     ${isFixedFooter ? 'fixed bottom-0' : 'relative mt-auto py-8'} 
+      //   `}
+      // >
+      //   {/* pointer-events-auto permet de sélectionner le texte du footer même si le container est "none" */}
+      //   <p className="pointer-events-auto">© 2026 Thibaut Senechal — Développé avec React & Tailwind</p>
+      // </footer>

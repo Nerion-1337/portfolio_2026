@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// Ajout de l'icône Phone
 import {
   Mail,
   MapPin,
@@ -69,8 +68,8 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Téléphone (NOUVEAU) */}
-            <div className="bg-gray-800/50 backdrop-blur-md p-6 rounded-2xl border border-gray-700/50 flex items-center gap-4 hover:border-blue-500/30 transition-colors">
+            {/* Téléphone (MODIFIÉ : hover vert) */}
+            <div className="bg-gray-800/50 backdrop-blur-md p-6 rounded-2xl border border-gray-700/50 flex items-center gap-4 hover:border-green-500/30 transition-colors">
               <div className="p-3 bg-green-500/10 rounded-lg text-green-400">
                 <Phone size={24} />
               </div>
@@ -85,8 +84,8 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Localisation */}
-            <div className="bg-gray-800/50 backdrop-blur-md p-6 rounded-2xl border border-gray-700/50 flex items-center gap-4 hover:border-blue-500/30 transition-colors">
+            {/* Localisation (MODIFIÉ : hover violet) */}
+            <div className="bg-gray-800/50 backdrop-blur-md p-6 rounded-2xl border border-gray-700/50 flex items-center gap-4 hover:border-purple-500/30 transition-colors">
               <div className="p-3 bg-purple-500/10 rounded-lg text-purple-400">
                 <MapPin size={24} />
               </div>
@@ -121,12 +120,11 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* COLONNE DROITE : Formulaire (Inchangé mais inclus pour copie facile) */}
+          {/* COLONNE DROITE : Formulaire */}
           <form
             onSubmit={handleSubmit}
             className="bg-gray-800/30 backdrop-blur-md p-8 rounded-3xl border border-gray-700/50 shadow-xl"
           >
-            {/* ... (Le reste du formulaire reste identique à ce qu'on a fait avant) */}
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-400 mb-2">
