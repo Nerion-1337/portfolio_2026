@@ -39,19 +39,28 @@ export const personalInfo = {
 
 export const timeline = [
   {
-    year: "2024 - Aujourd'hui",
+    year: "2025 - Aujourd'hui",
     title: "Développeur Fullstack Freelance",
-    description: "Conception d'applications web sur mesure, optimisation de performances et architecture logicielle pour divers clients.",
+    description:
+      "Conception d'applications web sur mesure, optimisation de performances et architecture logicielle pour divers clients.",
+  },
+  {
+    year: "2024 - 2025",
+    title: "Développeur Full Stack - Catalog",
+    description:
+      "Stage dans une start up avec un environnement agile pour développer une application de B2B de commerce.",
   },
   {
     year: "2023 - 2024",
     title: "Formation Développeur d'Application - JavaScript React",
-    description: "OpenClassrooms - Réalisation de 14 projets professionnalisants (Front-end, Back-end, SEO, Debugging, Gestion de projet Agile).",
+    description:
+      "OpenClassrooms - Réalisation de 14 projets professionnalisants (Front-end, Back-end, SEO, Debugging, Gestion de projet Agile).",
   },
   {
     year: "2018 - 2023",
     title: "Coach Sportif & Préparateur Physique",
-    description: "Gestion de planning, suivi d'objectifs, rigueur et pédagogie. Une expérience qui m'a appris la discipline que j'applique aujourd'hui au code.",
+    description:
+      "Gestion de planning, suivi d'objectifs, rigueur et pédagogie. Une expérience qui m'a appris la discipline que j'applique aujourd'hui au code.",
   },
   // Tu peux ajouter d'autres étapes ici
 ];

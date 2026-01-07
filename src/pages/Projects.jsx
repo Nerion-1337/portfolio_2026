@@ -26,8 +26,6 @@ const Projects = () => {
 
   const displayedProjects = isMobile ? allProjects.slice(0, 10) : allProjects;
 
-  // Sécurité index lors du resize (Pattern: Adjusting state during rendering)
-  // https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
   if (displayedProjects.length > 0 && activeIndex >= displayedProjects.length) {
     setActiveIndex(displayedProjects.length - 1);
   }
@@ -106,7 +104,7 @@ const Projects = () => {
   return (
     <PageTransition>
       <div
-        className="relative h-screen w-full bg-gray-900 overflow-hidden cursor-grab active:cursor-grabbing"
+        className="relative h-screen w-full bg-transparent overflow-hidden cursor-grab active:cursor-grabbing"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         onMouseDown={onMouseDown}
@@ -116,7 +114,6 @@ const Projects = () => {
         {/* SCÈNE 3D */}
         <div className="absolute inset-0 z-10 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 24], fov: 35 }}>
-            <color attach="background" args={["#111827"]} />
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={1} />
             <spotLight position={[0, 10, 0]} intensity={0.5} />
