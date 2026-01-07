@@ -19,7 +19,7 @@ import {
 } from "react-icons/si";
 import { GrMysql } from "react-icons/gr";
 
-const IMG_PATH = "/images/";
+const IMG_PATH = import.meta.env.BASE_URL + "images/"
 
 export const personalInfo = {
   name: "Thibaut Senechal",
