@@ -55,8 +55,12 @@ const About = () => {
         {/* SECTION 1 : INTRODUCTION & BIO */}
         <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl p-8 border border-gray-700/50 shadow-xl mb-12">
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 bg-blue-500/10 rounded-xl text-blue-400">
-              <User size={32} />
+            <div className="p-3 bg-blue-500/10 rounded-xl flex items-center justify-center">
+              <img
+                src="/images/ts-logo-blue.png"
+                alt="Logo TS"
+                className="w-8 h-8 object-contain"
+              />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white">
               À propos de moi

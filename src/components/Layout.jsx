@@ -111,6 +111,7 @@ const NavLink = ({ to, children, onClick }) => {
 
 const Layout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMenu = () => setIsMobileMenuOpen(false);
@@ -133,10 +134,41 @@ const Layout = ({ children }) => {
               <motion.h1
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="text-xl font-bold tracking-tighter cursor-pointer relative z-50"
+                // 2. Ajouter les gestionnaires d'événements pour détecter le survol
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                // J'ai ajouté 'inline-flex items-center' pour faciliter le positionnement relatif
+                className="text-xl font-bold tracking-tighter cursor-pointer relative z-50 inline-flex items-center"
               >
                 {personalInfo.name}
-                <span className="text-blue-400">.</span>
+
+                {/* 3. Affichage conditionnel de l'image avec animation */}
+                {/* AnimatePresence permet d'animer la sortie de l'élément du DOM */}
+                <AnimatePresence>
+                  {isHovered && (
+                    <motion.img
+                      key="hover-avatar"
+                      src="/images/thibaut.png"
+                      alt={`${personalInfo.name} avatar`}
+                      // --- Animation Framer Motion ---
+                      // IMPORTANT : On utilise x: "-50%" partout pour corriger le centrage horizontal.
+                      // On utilise 'y' juste pour un petit effet de glissement vertical.
+
+                      // Départ : Invisible, petit, centré horizontalement (x: -50%), légèrement plus bas (y: 10)
+                      initial={{ opacity: 0, scale: 0.5, x: "-50%", y: 0 }}
+                      // Arrivée : Visible, grande taille, toujours centré (x: -50%), à sa place finale (y: 0)
+                      animate={{ opacity: 1, scale: 4, x: "-50%", y: "125%" }}
+                      // Sortie : Redevient comme au départ
+                      exit={{ opacity: 0, scale: 0.5, x: "-50%", y: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                      className="absolute left-1/2 top-full mt-4 w-12 h-12 rounded-full object-cover shadow-lg border-2 border-white/20 pointer-events-none"
+                    />
+                  )}
+                </AnimatePresence>
               </motion.h1>
             </Link>
 
