@@ -75,7 +75,7 @@ const ProjectCard = ({
           {project.description}
         </div>
         <div className="border-t border-gray-700/50 mb-4"></div>
-        <div className="mt-auto pt-2">
+        <div className="mt-auto pt-1">
           <StackList stack={project.stack} id={project.id} />
         </div>
       </div>

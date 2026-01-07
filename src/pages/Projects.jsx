@@ -165,7 +165,7 @@ const Projects = () => {
               </div>
             </div>
             {/* Indication Scroll Desktop */}
-            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-60 animate-bounce">
+            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-60 animate-float">
               <div className="w-7 h-11 border-2 border-gray-500 rounded-full flex justify-center pt-2 box-border">
                 <div className="w-1 h-2 bg-blue-400 rounded-full" />
               </div>

@@ -16,10 +16,17 @@ import {
   SiMongodb,
   SiExpress,
   SiJest,
+  SiHono,
+  SiPostgresql,
+  SiUbuntu,
+  SiNginx,
+  SiPm2,
+  SiVite,
+  SiDocker,
 } from "react-icons/si";
 import { GrMysql } from "react-icons/gr";
 
-const IMG_PATH = import.meta.env.BASE_URL + "images/"
+const IMG_PATH = import.meta.env.BASE_URL + "images/";
 
 export const personalInfo = {
   name: "Thibaut Senechal",
@@ -67,6 +74,33 @@ export const timeline = [
 
 export const projects = [
   {
+    id: 15,
+    title: "Smylife",
+    description: (
+      <>
+        Api BtB d'un algorithme de matching pour application de colocation.
+        <br />
+        <span className="font-bold text-blue-400">Note :</span> Installation et
+        gestion de l'hebergement sur VPS.
+      </>
+    ),
+    stack: [
+      { name: "TypeScript", icon: SiTypescript },
+      { name: "React", icon: FaReact },
+      { name: "Vite", icon: SiVite },
+      { name: "Node.js", icon: FaNodeJs },
+      { name: "Hono", icon: SiHono },
+      { name: "PostgreSQL", icon: SiPostgresql },
+      { name: "Ubuntu", icon: SiUbuntu },
+      { name: "Nginx", icon: SiNginx },
+      { name: "PM2", icon: SiPm2 },
+    ],
+    image: `${IMG_PATH}Smylife.png`,
+    links: {
+      demo: "https://smylife.cloud",
+    },
+  },
+  {
     id: 1,
     title: "Miam Miam",
     description: (
@@ -81,16 +115,65 @@ export const projects = [
     ),
     stack: [
       { name: "React", icon: FaReact },
+      { name: "Vite", icon: SiVite },
       { name: "Sass", icon: FaSass },
       { name: "TypeScript", icon: SiTypescript },
       { name: "Redux", icon: SiRedux },
       { name: "Node.js", icon: FaNodeJs },
+      { name: "Express", icon: SiExpress },
       { name: "MySQL", icon: GrMysql },
     ],
     image: `${IMG_PATH}Miam-Miam.png`,
     links: {
       github: "https://github.com/Nerion-1337/MiamMIam",
       demo: "https://miammiam.vercel.app/",
+    },
+  },
+  {
+    id: 14,
+    title: "Portfolio V1",
+    description: (
+      <>
+        Mon précédent portfolio.
+        <br />
+        <span className="font-bold text-blue-400">Note :</span> Réalisé sans
+        framework d'animation, tout en CSS/JS natif pour optimiser les
+        performances.
+      </>
+    ),
+    stack: [
+      { name: "React", icon: FaReact },
+      { name: "Vite", icon: SiVite },
+      { name: "TypeScript", icon: SiTypescript },
+      { name: "Sass", icon: FaSass },
+    ],
+    image: `${IMG_PATH}Portfolio.png`,
+    links: {
+      github: "https://github.com/Nerion-1337/Portfolio",
+      demo: "https://nerion-1337.github.io/Portfolio/",
+    },
+  },
+    {
+    id: 14,
+    title: "Todo List",
+    description: (
+      <>
+        Entièrement réalisé en VibeCoding.
+        <br />
+        <span className="font-bold text-blue-400">Note :</span> De multiple fonctionnalités desktop et mobile, en quelques heures.
+      </>
+    ),
+    stack: [
+      { name: "TypeScript", icon: SiTypescript },
+      { name: "React", icon: FaReact },
+      { name: "Vite", icon: SiVite },
+      { name: "Node.js", icon: FaNodeJs },
+      { name: "Hono", icon: SiHono },
+      { name: "PostgreSQL", icon: SiPostgresql },
+    ],
+    image: `${IMG_PATH}todo_list.png`,
+    links: {
+      github: "https://github.com/Nerion-1337/Todo-list-claude",
     },
   },
   {
@@ -117,6 +200,91 @@ export const projects = [
     links: {
       github: "https://github.com/Nerion-1337/SportSee-OCR",
       demo: "https://nerion-1337.github.io/SportSee-OCR/",
+    },
+  },
+  {
+    id: 9,
+    title: "Billed",
+    description: (
+      <>
+        Projet OpenClassrooms.
+        <br />
+        <span className="font-bold text-blue-400">Objectif :</span> Débogage
+        d'une application SaaS RH. Réalisation de tests unitaires et
+        d'intégration avec Jest.
+      </>
+    ),
+    stack: [
+      { name: "Jest", icon: SiJest },
+      { name: "JavaScript", icon: SiJavascript },
+    ],
+    image: `${IMG_PATH}Billed.png`,
+    links: {
+      github: "https://github.com/Nerion-1337/Billed-OCR",
+      demo: null,
+    },
+  },
+  {
+    id: 10,
+    title: "LearnHome",
+    description: (
+      <>
+        Projet OpenClassrooms.
+        <br />
+        <span className="font-bold text-blue-400">Objectif :</span> Définition
+        des besoins, création de maquettes Figma et gestion de projet Agile.
+      </>
+    ),
+    stack: [{ name: "Figma", icon: FaFigma }],
+    image: `${IMG_PATH}LearnHome.png`,
+    links: {
+      github: "https://github.com/Nerion-1337/LearnHome-OCR",
+      demo: "https://www.figma.com/file/XYplrUx19n8RhQKCYcYiEk/Untitled",
+    },
+  },
+  {
+    id: 5,
+    title: "Wealth Health",
+    description: (
+      <>
+        Projet OpenClassrooms.
+        <br />
+        <span className="font-bold text-blue-400">Objectif :</span> Refonte
+        d'une application jQuery vers React. Création et publication d’un plugin
+        personnalisé sur NPM.
+      </>
+    ),
+    stack: [
+      { name: "React", icon: FaReact },
+      { name: "Redux", icon: SiRedux },
+      { name: "Sass", icon: FaSass },
+    ],
+    image: `${IMG_PATH}Wealth-Health.png`,
+    links: {
+      github: "https://github.com/Nerion-1337/Wealth_Health-OCR",
+      demo: "https://nerion-1337.github.io/Wealth_Health-OCR/",
+    },
+  },
+  {
+    id: 8,
+    title: "Les Petits Plats",
+    description: (
+      <>
+        Projet OpenClassrooms.
+        <br />
+        <span className="font-bold text-blue-400">Objectif :</span>{" "}
+        Développement d'un algorithme de recherche performant (boucles natives
+        vs méthodes Array) pour filtrer des recettes en temps réel.
+      </>
+    ),
+    stack: [
+      { name: "JavaScript", icon: SiJavascript },
+      { name: "Sass", icon: FaSass },
+    ],
+    image: `${IMG_PATH}Les-Petits-Plats.png`,
+    links: {
+      github: "https://github.com/Nerion-1337/Les-Petits-Plats-OCR",
+      demo: "https://nerion-1337.github.io/Les-Petits-Plats-OCR/",
     },
   },
   {
@@ -162,29 +330,6 @@ export const projects = [
     links: {
       github: "https://github.com/Nerion-1337/ArgentBank-OCR",
       demo: "https://nerion-1337.github.io/AgentBank-OCR/",
-    },
-  },
-  {
-    id: 5,
-    title: "Wealth Health",
-    description: (
-      <>
-        Projet OpenClassrooms.
-        <br />
-        <span className="font-bold text-blue-400">Objectif :</span> Refonte
-        d'une application jQuery vers React. Création et publication d’un plugin
-        personnalisé sur NPM.
-      </>
-    ),
-    stack: [
-      { name: "React", icon: FaReact },
-      { name: "Redux", icon: SiRedux },
-      { name: "Sass", icon: FaSass },
-    ],
-    image: `${IMG_PATH}Wealth-Health.png`,
-    links: {
-      github: "https://github.com/Nerion-1337/Wealth_Health-OCR",
-      demo: "https://nerion-1337.github.io/Wealth_Health-OCR/",
     },
   },
   {
@@ -235,68 +380,6 @@ export const projects = [
     links: {
       github: "https://github.com/Nerion-1337/Fisheye-OCR",
       demo: "https://nerion-1337.github.io/Fisheye-OCR/",
-    },
-  },
-  {
-    id: 8,
-    title: "Les Petits Plats",
-    description: (
-      <>
-        Projet OpenClassrooms.
-        <br />
-        <span className="font-bold text-blue-400">Objectif :</span>{" "}
-        Développement d'un algorithme de recherche performant (boucles natives
-        vs méthodes Array) pour filtrer des recettes en temps réel.
-      </>
-    ),
-    stack: [
-      { name: "JavaScript", icon: SiJavascript },
-      { name: "Sass", icon: FaSass },
-    ],
-    image: `${IMG_PATH}Les-Petits-Plats.png`,
-    links: {
-      github: "https://github.com/Nerion-1337/Les-Petits-Plats-OCR",
-      demo: "https://nerion-1337.github.io/Les-Petits-Plats-OCR/",
-    },
-  },
-  {
-    id: 9,
-    title: "Billed",
-    description: (
-      <>
-        Projet OpenClassrooms.
-        <br />
-        <span className="font-bold text-blue-400">Objectif :</span> Débogage
-        d'une application SaaS RH. Réalisation de tests unitaires et
-        d'intégration avec Jest.
-      </>
-    ),
-    stack: [
-      { name: "Jest", icon: SiJest },
-      { name: "JavaScript", icon: SiJavascript },
-    ],
-    image: `${IMG_PATH}Billed.png`,
-    links: {
-      github: "https://github.com/Nerion-1337/Billed-OCR",
-      demo: null,
-    },
-  },
-  {
-    id: 10,
-    title: "LearnHome",
-    description: (
-      <>
-        Projet OpenClassrooms.
-        <br />
-        <span className="font-bold text-blue-400">Objectif :</span> Définition
-        des besoins, création de maquettes Figma et gestion de projet Agile.
-      </>
-    ),
-    stack: [{ name: "Figma", icon: FaFigma }],
-    image: `${IMG_PATH}LearnHome.png`,
-    links: {
-      github: "https://github.com/Nerion-1337/LearnHome-OCR",
-      demo: "https://www.figma.com/file/XYplrUx19n8RhQKCYcYiEk/Untitled",
     },
   },
   {
@@ -362,29 +445,6 @@ export const projects = [
     links: {
       github: "https://github.com/Nerion-1337/Booki-OCR",
       demo: "https://nerion-1337.github.io/Booki-OCR/",
-    },
-  },
-  {
-    id: 14,
-    title: "Portfolio V1",
-    description: (
-      <>
-        Mon précédent portfolio.
-        <br />
-        <span className="font-bold text-blue-400">Note :</span> Réalisé sans
-        framework d'animation, tout en CSS/JS natif pour optimiser les
-        performances.
-      </>
-    ),
-    stack: [
-      { name: "React", icon: FaReact },
-      { name: "TypeScript", icon: SiTypescript },
-      { name: "Sass", icon: FaSass },
-    ],
-    image: `${IMG_PATH}Portfolio.png`,
-    links: {
-      github: "https://github.com/Nerion-1337/Portfolio",
-      demo: "https://nerion-1337.github.io/Portfolio/",
     },
   },
 ];

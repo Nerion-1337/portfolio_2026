@@ -7,7 +7,7 @@ const StackList = ({ stack, id }) => {
 
   return (
     <div 
-      className="flex flex-wrap gap-3" 
+      className="flex flex-wrap" 
       onMouseLeave={() => setHoveredIndex(null)} // On quitte la zone globale -> reset
     >
       {stack.map((tech, index) => {
