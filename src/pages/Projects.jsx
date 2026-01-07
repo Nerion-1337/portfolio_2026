@@ -175,10 +175,6 @@ const Projects = () => {
 
         {/* UI MOBILE */}
         <div className="absolute bottom-8 w-full flex flex-col items-center justify-center md:hidden z-30 pointer-events-none">
-          <div className="text-blue-400 font-bold text-xl mb-4 text-center px-4">
-            {displayedProjects[activeIndex]?.title}
-          </div>
-
           <div className="flex gap-3 pointer-events-auto p-2">
             {displayedProjects.map((_, index) => (
               <button
