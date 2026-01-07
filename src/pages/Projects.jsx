@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { projects as allProjects } from "../data/data";
 import PageTransition from "../components/PageTransition";
 import Project3DViewer from "../components/Project3DViewer";
+import { TbHandFinger } from "react-icons/tb";
 
 const Projects = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -10,7 +11,7 @@ const Projects = () => {
   const isAnimating = useRef(false);
 
   // Refs pour Drag & Swipe
-  const dragStartY = useRef(0);
+  const dragStartX = useRef(0);
   const isDragging = useRef(false);
 
   // --- 1. GESTION MOBILE & FILTRAGE ---
@@ -65,7 +66,7 @@ const Projects = () => {
 
       setTimeout(() => {
         isAnimating.current = false;
-      }, 800);
+      }, 400);
     };
 
     window.addEventListener("wheel", onWheel);
@@ -73,16 +74,16 @@ const Projects = () => {
   }, [handleNext, handlePrev]);
 
   // --- GESTION DRAG & SWIPE ---
-  const onStart = (clientY) => {
-    dragStartY.current = clientY;
+  const onStart = (clientX) => {
+    dragStartX.current = clientX;
     isDragging.current = true;
   };
 
-  const onEnd = (clientY) => {
+  const onEnd = (clientX) => {
     if (!isDragging.current || isAnimating.current) return;
 
     const minSwipeDistance = 50;
-    const distance = dragStartY.current - clientY;
+    const distance = dragStartX.current - clientX;
 
     if (Math.abs(distance) > minSwipeDistance) {
       isAnimating.current = true;
@@ -91,15 +92,15 @@ const Projects = () => {
 
       setTimeout(() => {
         isAnimating.current = false;
-      }, 800);
+      }, 400);
     }
     isDragging.current = false;
   };
 
-  const onTouchStart = (e) => onStart(e.targetTouches[0].clientY);
-  const onTouchEnd = (e) => onEnd(e.changedTouches[0].clientY);
-  const onMouseDown = (e) => onStart(e.clientY);
-  const onMouseUp = (e) => onEnd(e.clientY);
+  const onTouchStart = (e) => onStart(e.targetTouches[0].clientX);
+  const onTouchEnd = (e) => onEnd(e.changedTouches[0].clientX);
+  const onMouseDown = (e) => onStart(e.clientX);
+  const onMouseUp = (e) => onEnd(e.clientX);
 
   return (
     <PageTransition>
@@ -121,6 +122,17 @@ const Projects = () => {
             <Project3DViewer
               projects={displayedProjects}
               activeIndex={activeIndex}
+              onDragStart={(e) => {
+                // Propager l'événement pour mobile et desktop
+                // On supporte TouchEvent et MouseEvent
+                if (e.touches) onTouchStart(e);
+                else onMouseDown(e);
+              }}
+              onDragEnd={(e) => {
+                // Idem
+                if (e.changedTouches) onTouchEnd(e);
+                else onMouseUp(e);
+              }}
             />
           </Canvas>
         </div>
@@ -150,6 +162,12 @@ const Projects = () => {
                     {project.title}
                   </button>
                 ))}
+              </div>
+            </div>
+            {/* Indication Scroll Desktop */}
+            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-60 animate-bounce">
+              <div className="w-7 h-11 border-2 border-gray-500 rounded-full flex justify-center pt-2 box-border">
+                <div className="w-1 h-2 bg-blue-400 rounded-full" />
               </div>
             </div>
           </div>
@@ -182,8 +200,11 @@ const Projects = () => {
             ))}
           </div>
 
-          <div className="text-gray-700 text-[10px] mt-3 uppercase tracking-widest">
-            Swipe ou Clique
+          {/* Indication Swipe Mobile - Main animée */}
+          <div className="mt-4 opacity-70">
+            <div className="relative w-8 h-8 animate-swipe">
+              <TbHandFinger className="w-8 h-8 text-gray-400" />
+            </div>
           </div>
         </div>
       </div>

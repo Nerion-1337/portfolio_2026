@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@theme {
+  --animate-swipe: swipe 2s ease-in-out infinite;
+
+  @keyframes swipe {
+    0%,
+    100% {
+      transform: translateX(-10px) rotate(-10deg);
+    }
+    50% {
+      transform: translateX(10px) rotate(10deg);
+    }
+  }
+}

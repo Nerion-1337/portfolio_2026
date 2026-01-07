@@ -1,19 +1,26 @@
-import React, { useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
-import * as THREE from 'three';
-import ProjectCard from './ProjectCard';
+import React, { useRef } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
+import * as THREE from "three";
+import ProjectCard from "./ProjectCard";
 
-const ProjectItem = ({ project, index, activeIndex, totalCount }) => {
+const ProjectItem = ({
+  project,
+  index,
+  activeIndex,
+  totalCount,
+  onDragStart,
+  onDragEnd,
+}) => {
   const groupRef = useRef();
   const { size } = useThree();
   const isMobile = size.width < 768;
 
   useFrame((state, delta) => {
     const xOffset = isMobile ? 18 : 25;
-    
+
     // --- NOUVELLE LOGIQUE CIRCULAIRE ---
-    
+
     // 1. Calcul de la différence brute
     let relativePosition = index - activeIndex;
 
@@ -51,9 +58,24 @@ const ProjectItem = ({ project, index, activeIndex, totalCount }) => {
     }
 
     // Animation fluide
-    groupRef.current.position.x = THREE.MathUtils.damp(groupRef.current.position.x, targetX, 4, delta);
-    groupRef.current.position.z = THREE.MathUtils.damp(groupRef.current.position.z, targetZ, 4, delta);
-    groupRef.current.rotation.y = THREE.MathUtils.damp(groupRef.current.rotation.y, targetRotY, 4, delta);
+    groupRef.current.position.x = THREE.MathUtils.damp(
+      groupRef.current.position.x,
+      targetX,
+      4,
+      delta
+    );
+    groupRef.current.position.z = THREE.MathUtils.damp(
+      groupRef.current.position.z,
+      targetZ,
+      4,
+      delta
+    );
+    groupRef.current.rotation.y = THREE.MathUtils.damp(
+      groupRef.current.rotation.y,
+      targetRotY,
+      4,
+      delta
+    );
   });
 
   const isActive = index === activeIndex;
@@ -66,29 +88,37 @@ const ProjectItem = ({ project, index, activeIndex, totalCount }) => {
         zIndexRange={[100, 0]}
         scale={isMobile ? 0.75 : 1}
         style={{
-          transition: 'opacity 0.4s ease-out',
+          transition: "opacity 0.4s ease-out",
           opacity: isActive ? 1 : 0,
-          pointerEvents: isActive ? 'auto' : 'none',
+          pointerEvents: isActive ? "auto" : "none",
         }}
       >
         <div className="w-[90vw] md:w-125 rounded-xl overflow-hidden shadow-2xl shadow-black/80 bg-gray-900 border border-gray-700/50">
-           <ProjectCard project={project} />
+          <ProjectCard
+            project={project}
+            onTouchStart={onDragStart}
+            onTouchEnd={onDragEnd}
+            onMouseDown={onDragStart}
+            onMouseUp={onDragEnd}
+          />
         </div>
       </Html>
     </group>
   );
 };
 
-const Project3DViewer = ({ projects, activeIndex }) => {
+const Project3DViewer = ({ projects, activeIndex, onDragStart, onDragEnd }) => {
   return (
     <group position={[0, 0, 0]}>
       {projects.map((project, index) => (
-        <ProjectItem 
+        <ProjectItem
           key={project.id}
           project={project}
           index={index}
           activeIndex={activeIndex}
           totalCount={projects.length} // On passe le nombre total indispensable pour le calcul
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
         />
       ))}
     </group>
