@@ -9,10 +9,18 @@ const ProjectCard = ({
   onMouseDown,
   onMouseUp,
 }) => {
-  // Image par défaut si aucune n'est fournie (placeholder gris foncé)
+  // Image par défaut
   const imageSrc =
     project.image ||
     "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop";
+
+  // État pour afficher les liens au clic (utile pour mobile)
+  const [showLinks, setShowLinks] = React.useState(false);
+
+  const handleCardClick = () => {
+    // On bascule l'affichage des liens au clic
+    setShowLinks((prev) => !prev);
+  };
 
   return (
     <div
@@ -21,17 +29,21 @@ const ProjectCard = ({
       onTouchEnd={onTouchEnd}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
+      onClick={handleCardClick}
     >
       {/* --- Image Cover --- */}
       <div className="relative h-48 overflow-hidden bg-gray-900 border-b border-gray-800">
-        <div className="absolute inset-0 bg-gray-900/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
+        <div
+          className={`absolute inset-0 bg-gray-900/20 group-hover:bg-transparent transition-colors duration-500 z-10 ${
+            showLinks ? "bg-transparent" : ""
+          }`}
+        />
 
         {/* On affiche toujours l'image, soit la vraie, soit le placeholder */}
         <img
           src={imageSrc}
           alt={project.title}
           className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-          // Petit fix : si l'image ne charge pas (lien cassé), on remet une image vide ou couleur
           onError={(e) => {
             e.target.style.display = "none";
             e.target.parentNode.style.backgroundColor = "#1f2937";
@@ -39,14 +51,23 @@ const ProjectCard = ({
         />
 
         {/* --- Liens Flottants --- */}
-        <div className="absolute top-3 right-3 flex gap-2 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+        <div
+          className={`absolute top-3 right-3 flex gap-2 z-20 transition-all duration-300 ${
+            showLinks
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
+          }`}
+        >
           {project.links.github && (
             <a
               href={project.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black text-white transition-colors shadow-lg border border-gray-600 hover:border-white"
+              className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black text-white transition-colors shadow-lg border border-gray-600 hover:border-white pointer-events-auto"
               title="Voir le code source"
+              onClick={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               <Github size={20} />
             </a>
@@ -57,8 +78,11 @@ const ProjectCard = ({
               href={project.links.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-blue-600 rounded-full hover:bg-blue-400 text-white transition-colors shadow-lg shadow-blue-500/30"
+              className="p-3 bg-blue-600 rounded-full hover:bg-blue-400 text-white transition-colors shadow-lg shadow-blue-500/30 pointer-events-auto"
               title="Voir le site en direct"
+              onClick={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               <ExternalLink size={20} />
             </a>

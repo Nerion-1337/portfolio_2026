@@ -20,7 +20,27 @@ const TimelineItem = ({ item }) => {
         className="absolute -left-2.25 top-8 w-5 h-5 rounded-full border-2 z-10 shadow-[0_0_10px_rgba(59,130,246,0.3)]"
       />{" "}
       {/* Le contenu - Bloc séparé pour le backdrop-blur */}
-      <div className="rounded-2xl p-6 transition-all duration-300 hover:bg-white/5 hover:backdrop-blur-sm -my-4">
+      <motion.div
+        initial={{
+          backgroundColor: "rgba(255, 255, 255, 0)",
+          backdropFilter: "blur(0px)",
+        }}
+        whileInView={{
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          backdropFilter: "blur(12px)",
+        }}
+        whileHover={{
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          backdropFilter: "blur(12px)",
+        }}
+        whileTap={{
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          backdropFilter: "blur(12px)",
+        }}
+        viewport={{ margin: "5000px 0px -45% 0px" }}
+        transition={{ duration: 0.3 }}
+        className="rounded-2xl p-6 -my-4 cursor-pointer"
+      >
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-4 gap-2">
           <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-blue-400 transition-colors">
             {item.title}
@@ -33,7 +53,7 @@ const TimelineItem = ({ item }) => {
         <p className="text-gray-400 mt-2 text-lg md:text-xl leading-relaxed max-w-3xl">
           {item.description}
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };
