@@ -7,9 +7,12 @@ import { projectDetails } from "../data/data";
 const ProjectCard = ({
   project,
   onTouchStart,
+  onTouchMove,
   onTouchEnd,
   onMouseDown,
+  onMouseMove,
   onMouseUp,
+  onMouseLeave,
   onOpenDetail,
 }) => {
   // Image par défaut si aucune n'est fournie (placeholder gris foncé)
@@ -41,9 +44,12 @@ const ProjectCard = ({
           : "border border-gray-800"
       }`}
       onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
       onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
+      onMouseLeave={onMouseLeave}
       onClick={handleCardClick}
     >
       {/* --- Image Cover --- */}
@@ -84,7 +90,7 @@ const ProjectCard = ({
               onClick={handleOpenDetail}
               onTouchEnd={handleOpenDetail}
               onMouseDown={(e) => e.stopPropagation()}
-              className="p-3 bg-purple-600 rounded-full hover:bg-purple-500 text-white transition-colors shadow-lg shadow-purple-500/30 pointer-events-auto"
+              className="p-3 bg-purple-600 rounded-full hover:bg-purple-500 text-white transition-colors shadow-lg shadow-purple-500/30 pointer-events-auto cursor-pointer"
               title="Voir plus de détails"
             >
               <Info size={20} />

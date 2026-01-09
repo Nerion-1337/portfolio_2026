@@ -5,6 +5,7 @@ import PageTransition from "../components/PageTransition";
 import Project3DViewer from "../components/Project3DViewer";
 import ProjectDetailModal from "../components/ProjectDetailModal";
 import { TbHandFinger } from "react-icons/tb";
+import { useSwipe } from "../hooks/useSwipe";
 
 const Projects = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,10 +17,6 @@ const Projects = () => {
   const [detailTitle, setDetailTitle] = useState("");
 
   const isAnimating = useRef(false);
-
-  // Refs pour Drag & Swipe
-  const dragStartX = useRef(0);
-  const isDragging = useRef(false);
 
   // --- 1. GESTION MOBILE & FILTRAGE ---
   useEffect(() => {
@@ -42,13 +39,11 @@ const Projects = () => {
 
   const handleNext = useCallback(() => {
     // (Index Actuel + 1) modulo Longueur Totale
-    // Si on est à la fin (9), (9+1)%10 = 0 -> Retour au début
     setActiveIndex((prev) => (prev + 1) % displayedProjects.length);
   }, [displayedProjects.length]);
 
   const handlePrev = useCallback(() => {
     // (Index Actuel - 1 + Longueur) modulo Longueur
-    // Si on est au début (0), (0-1+10)%10 = 9 -> Allé à la fin
     setActiveIndex(
       (prev) => (prev - 1 + displayedProjects.length) % displayedProjects.length
     );
@@ -59,6 +54,21 @@ const Projects = () => {
       setActiveIndex(index);
     }
   };
+
+  // --- GESTION SWIPE (Via Hook) ---
+  const {
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
+    onMouseLeave,
+  } = useSwipe({
+    onSwipeLeft: handleNext,
+    onSwipeRight: handlePrev,
+    threshold: 50,
+  });
 
   // --- GESTION OUVERTURE DETAILS ---
   const handleOpenDetail = (project) => {
@@ -97,45 +107,9 @@ const Projects = () => {
     return () => window.removeEventListener("wheel", onWheel);
   }, [handleNext, handlePrev, isDetailOpen]);
 
-  // --- GESTION DRAG & SWIPE ---
-  const onStart = (clientX) => {
-    dragStartX.current = clientX;
-    isDragging.current = true;
-  };
-
-  const onEnd = (clientX) => {
-    if (!isDragging.current || isAnimating.current) return;
-
-    const minSwipeDistance = 50;
-    const distance = dragStartX.current - clientX;
-
-    if (Math.abs(distance) > minSwipeDistance) {
-      isAnimating.current = true;
-      if (distance > 0) handleNext();
-      else handlePrev();
-
-      setTimeout(() => {
-        isAnimating.current = false;
-      }, 400);
-    }
-    isDragging.current = false;
-  };
-
-  const onTouchStart = (e) => onStart(e.targetTouches[0].clientX);
-  const onTouchEnd = (e) => onEnd(e.changedTouches[0].clientX);
-  const onMouseDown = (e) => onStart(e.clientX);
-  const onMouseUp = (e) => onEnd(e.clientX);
-
   return (
     <PageTransition>
-      <div
-        className="relative h-screen w-full bg-transparent overflow-hidden cursor-grab active:cursor-grabbing"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseLeave={() => (isDragging.current = false)}
-      >
+      <div className="relative h-screen w-full bg-transparent overflow-hidden">
         {/* SCÈNE 3D */}
         <div className="absolute inset-0 z-10 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 24], fov: 35 }}>
@@ -147,15 +121,23 @@ const Projects = () => {
               projects={displayedProjects}
               activeIndex={activeIndex}
               onDragStart={(e) => {
-                // Propager l'événement pour mobile et desktop
-                // On supporte TouchEvent et MouseEvent
+                e.stopPropagation();
                 if (e.touches) onTouchStart(e);
                 else onMouseDown(e);
               }}
+              onDragMove={(e) => {
+                e.stopPropagation();
+                if (e.touches) onTouchMove(e);
+                else onMouseMove(e);
+              }}
               onDragEnd={(e) => {
-                // Idem
+                e.stopPropagation();
                 if (e.changedTouches) onTouchEnd(e);
                 else onMouseUp(e);
+              }}
+              onDragLeave={(e) => {
+                e.stopPropagation();
+                onMouseLeave(e);
               }}
               onOpenDetail={handleOpenDetail}
             />

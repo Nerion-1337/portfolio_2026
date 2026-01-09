@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { personalInfo } from "../data/data";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Canvas3D from "./Canvas3D";
 import { CanvasProvider, useCanvasContext } from "../context/CanvasContext";
+import { useSwipe } from "../hooks/useSwipe";
 
 const BackgroundLayers = () => {
   const { textRef } = useCanvasContext();
@@ -112,14 +113,58 @@ const NavLink = ({ to, children, onClick }) => {
 const Layout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMenu = () => setIsMobileMenuOpen(false);
 
+  const ROUTES = ["/", "/about", "/projets", "/contact"];
+
+  const changePage = (direction) => {
+    // Ne pas changer de page si le menu mobile est ouvert
+    if (isMobileMenuOpen) return;
+
+    const currentIndex = ROUTES.indexOf(location.pathname);
+    if (currentIndex === -1) return;
+
+    if (direction === "next") {
+      const nextIndex = (currentIndex + 1) % ROUTES.length;
+      navigate(ROUTES[nextIndex]);
+    } else {
+      const prevIndex = (currentIndex - 1 + ROUTES.length) % ROUTES.length;
+      navigate(ROUTES[prevIndex]);
+    }
+  };
+
+  const {
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
+    onMouseLeave,
+  } = useSwipe({
+    onSwipeLeft: () => changePage("next"),
+    onSwipeRight: () => changePage("prev"),
+    threshold: 80,
+    preventDefault: false,
+  });
+
   return (
     <CanvasProvider>
       {/* On remet min-h-screen pour permettre le scroll sur les pages longues */}
-      <div className="min-h-screen bg-gray-900 text-white font-sans flex flex-col relative overflow-hidden">
+      <div
+        className="min-h-screen bg-gray-900 text-white font-sans flex flex-col relative overflow-hidden"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+      >
         <BackgroundLayers />
 
         {/* Navigation */}

@@ -10,7 +10,9 @@ const ProjectItem = ({
   activeIndex,
   totalCount,
   onDragStart,
+  onDragMove,
   onDragEnd,
+  onDragLeave,
   onOpenDetail,
 }) => {
   const groupRef = useRef();
@@ -98,9 +100,12 @@ const ProjectItem = ({
           <ProjectCard
             project={project}
             onTouchStart={onDragStart}
+            onTouchMove={onDragMove}
             onTouchEnd={onDragEnd}
             onMouseDown={onDragStart}
+            onMouseMove={onDragMove}
             onMouseUp={onDragEnd}
+            onMouseLeave={onDragLeave}
             onOpenDetail={onOpenDetail}
           />
         </div>
@@ -113,7 +118,9 @@ const Project3DViewer = ({
   projects,
   activeIndex,
   onDragStart,
+  onDragMove,
   onDragEnd,
+  onDragLeave,
   onOpenDetail,
 }) => {
   return (
@@ -126,7 +133,9 @@ const Project3DViewer = ({
           activeIndex={activeIndex}
           totalCount={projects.length}
           onDragStart={onDragStart}
+          onDragMove={onDragMove}
           onDragEnd={onDragEnd}
+          onDragLeave={onDragLeave}
           onOpenDetail={onOpenDetail}
         />
       ))}

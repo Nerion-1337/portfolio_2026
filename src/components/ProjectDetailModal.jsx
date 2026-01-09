@@ -13,10 +13,34 @@ const getYoutubeId = (url) => {
   return match && match[2].length === 11 ? match[2] : null;
 };
 
+// Helper pour envoyer des commandes à l'iframe YouTube
+const sendPlayerCommand = (iframeWindow, command, args = []) => {
+  if (iframeWindow) {
+    iframeWindow.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: command,
+        args: args,
+      }),
+      "*"
+    );
+  }
+};
+
 // Composant Helper pour le Header (Bannière, Vidéo ou Carousel)
 const ModalHeader = ({ headerData, onZoom }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  // Nouveaux états localisés pour l'expansion vidéo
+  const [isExpanded, setIsExpanded] = useState(false);
+  const iframeRef = React.useRef(null);
+
+  useEffect(() => {
+    // Si la modal se ferme ou change, on reset
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsExpanded(false);
+  }, [headerData]);
 
   // UseEffect doit être appelé avant tout return conditionnel
   useEffect(() => {
@@ -104,24 +128,87 @@ const ModalHeader = ({ headerData, onZoom }) => {
   }
 
   // Cas: String (Vidéo ou Image unique)
-  const isVideo = headerData.endsWith(".mp4") || headerData.endsWith(".webm");
+  const isVideo =
+    typeof headerData === "string" &&
+    (headerData.endsWith(".mp4") || headerData.endsWith(".webm"));
   const youtubeId = getYoutubeId(headerData);
+
+  // Gestion du clic sur la vidéo YouTube
+  const handleVideoClick = (e) => {
+    if (youtubeId) {
+      e.stopPropagation();
+      const newExpandedState = !isExpanded;
+      setIsExpanded(newExpandedState);
+
+      const iframe = iframeRef.current;
+      if (iframe) {
+        if (newExpandedState) {
+          // Activer le son et monter le volume
+          sendPlayerCommand(iframe.contentWindow, "unMute");
+          sendPlayerCommand(iframe.contentWindow, "setVolume", [100]);
+        } else {
+          // Couper le son
+          sendPlayerCommand(iframe.contentWindow, "mute");
+        }
+      }
+    } else {
+      onZoom(headerData);
+    }
+  };
 
   return (
     <div
-      className="w-full h-64 md:h-80 bg-black overflow-hidden relative cursor-zoom-in group"
-      onClick={() => onZoom(headerData)}
+      className={`w-full bg-black overflow-hidden group cursor-zoom-in transition-all duration-300 ${
+        isExpanded ? "fixed inset-0 z-50 h-screen" : "relative h-64 md:h-80"
+      }`}
+      onClick={() => {
+        // Si c'est expand, on veut pouvoir cliquer n'importe où pour fermer ?
+        // Ou juste le bouton close. Ici on garde le comportement zoom si pas youtube
+        if (!youtubeId) onZoom(headerData);
+      }}
     >
       {youtubeId ? (
         <>
-          <iframe
-            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&showinfo=0&modestbranding=1`}
-            className="w-full h-full object-cover pointer-events-none scale-150"
-            allow="autoplay; encrypted-media"
-            title="Header Video"
-          />
-          {/* Overlay pour capturer le clic et permettre le zoom */}
-          <div className="absolute inset-0 bg-transparent z-10" />
+          <div
+            className="w-full h-full relative"
+            onClick={handleVideoClick} // Le clic sur le container active/désactive
+          >
+            <iframe
+              ref={iframeRef}
+              src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=1&showinfo=0&modestbranding=1&enablejsapi=1`}
+              className={`w-full h-full object-cover transition-all duration-500 ${
+                isExpanded
+                  ? "pointer-events-auto"
+                  : "pointer-events-none scale-150"
+              }`}
+              allow="autoplay; encrypted-media"
+              title="Header Video"
+            />
+
+            {/* Overlay transparent pour capturer le clic quand non-étendu (à cause du pointer-events-none sur l'iframe) */}
+            {!isExpanded && (
+              <div className="absolute inset-0 bg-transparent z-10" />
+            )}
+
+            {/* Bouton fermer spécifique au mode étendu */}
+            {isExpanded && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // Évite de re-déclencher le toggle du container
+                  handleVideoClick(e);
+                }}
+                className="absolute top-8 right-8 z-60 p-4 bg-blue-400 hover:bg-blue-500 rounded-full text-white transition-colors shadow-lg shadow-blue-500/50 cursor-pointer group"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.4 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <X size={36} />
+                </motion.div>
+              </button>
+            )}
+          </div>
         </>
       ) : isVideo ? (
         <video
@@ -140,7 +227,9 @@ const ModalHeader = ({ headerData, onZoom }) => {
         />
       )}
       {/* Gradient overlay pour fondre avec le contenu si désiré */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t from-gray-900 to-transparent pointer-events-none z-20"></div>
+      {!isExpanded && (
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t from-gray-900 to-transparent pointer-events-none z-20"></div>
+      )}
     </div>
   );
 };

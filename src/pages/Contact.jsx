@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import {
   Mail,
   MapPin,
@@ -13,6 +14,7 @@ import { personalInfo } from "../data/data";
 import PageTransition from "../components/PageTransition";
 
 const Contact = () => {
+  const formRef = useRef();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,11 +28,30 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus("sending");
-    setTimeout(() => {
-      setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setStatus(null), 3000);
-    }, 1500);
+
+    // Remplacer ces valeurs par vos IDs EmailJS
+    // https://dashboard.emailjs.com/admin
+    const SERVICE_ID = "service_YOUR_ID";
+    const TEMPLATE_ID = "template_YOUR_ID";
+    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+
+    emailjs
+      .sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, {
+        publicKey: PUBLIC_KEY,
+      })
+      .then(
+        () => {
+          setStatus("success");
+          setFormData({ name: "", email: "", message: "" });
+          setTimeout(() => setStatus(null), 5000);
+        },
+        (error) => {
+          console.error("FAILED...", error);
+          setStatus("error");
+          alert("Une erreur est survenue lors de l'envoi du message.");
+          setTimeout(() => setStatus(null), 3000);
+        }
+      );
   };
 
   return (
@@ -122,6 +143,7 @@ const Contact = () => {
 
           {/* COLONNE DROITE : Formulaire */}
           <form
+            ref={formRef}
             onSubmit={handleSubmit}
             className="bg-gray-800/30 backdrop-blur-md p-8 rounded-3xl border border-gray-700/50 shadow-xl"
           >
