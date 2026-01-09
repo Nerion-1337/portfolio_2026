@@ -31,9 +31,9 @@ const Contact = () => {
 
     // Remplacer ces valeurs par vos IDs EmailJS
     // https://dashboard.emailjs.com/admin
-    const SERVICE_ID = "service_YOUR_ID";
-    const TEMPLATE_ID = "template_YOUR_ID";
-    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+    const SERVICE_ID = "service_dfv4tyq";
+    const TEMPLATE_ID = "template_633pbub";
+    const PUBLIC_KEY = "rRXY2hZO0TYhy_jfT";
 
     emailjs
       .sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, {
