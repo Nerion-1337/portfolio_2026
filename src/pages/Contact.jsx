@@ -9,6 +9,7 @@ import {
   CheckCircle,
   AlertCircle,
   Phone,
+  Calendar,
 } from "lucide-react";
 import { personalInfo } from "../data/data";
 import PageTransition from "../components/PageTransition";
@@ -113,6 +114,24 @@ const Contact = () => {
               <div>
                 <h3 className="text-white font-medium">Localisation</h3>
                 <p className="text-gray-400 text-sm">Bordeaux, France</p>
+              </div>
+            </div>
+
+            {/* Agenda (Nouveau) */}
+            <div className="bg-gray-800/50 backdrop-blur-md p-6 rounded-2xl border border-gray-700/50 flex items-center gap-4 hover:border-orange-500/30 transition-colors">
+              <div className="p-3 bg-orange-500/10 rounded-lg text-orange-400">
+                <Calendar size={24} />
+              </div>
+              <div>
+                <h3 className="text-white font-medium">Agenda</h3>
+                <a
+                  href="https://calendly.com/nerion-1337-dev/entretien?month=2026-01"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
+                >
+                  Prendre rendez-vous
+                </a>
               </div>
             </div>
 
