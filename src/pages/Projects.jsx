@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
-import { projects as allProjects } from "../data/data";
+import { projects as allProjects, projectDetails } from "../data/data";
 import PageTransition from "../components/PageTransition";
 import Project3DViewer from "../components/Project3DViewer";
+import ProjectDetailModal from "../components/ProjectDetailModal";
 import { TbHandFinger } from "react-icons/tb";
 
 const Projects = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Gestion Modale Détails
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [currentDetail, setCurrentDetail] = useState(null);
+  const [detailTitle, setDetailTitle] = useState("");
+
   const isAnimating = useRef(false);
 
   // Refs pour Drag & Swipe
@@ -53,9 +60,26 @@ const Projects = () => {
     }
   };
 
+  // --- GESTION OUVERTURE DETAILS ---
+  const handleOpenDetail = (project) => {
+    const detail = projectDetails.find((d) => d.title === project.title);
+    if (detail) {
+      setCurrentDetail(detail);
+      setDetailTitle(project.title);
+      setIsDetailOpen(true);
+    }
+  };
+  const handleCloseDetail = () => {
+    setIsDetailOpen(false);
+    setTimeout(() => setCurrentDetail(null), 300); // Wait for animation
+  };
+
   // --- GESTION SCROLL SOURIS ---
   useEffect(() => {
     const onWheel = (e) => {
+      // Si la modale est ouverte, on ne change pas de projet au scroll
+      if (isDetailOpen) return;
+
       if (isAnimating.current) return;
       if (Math.abs(e.deltaY) < 30) return;
 
@@ -71,7 +95,7 @@ const Projects = () => {
 
     window.addEventListener("wheel", onWheel);
     return () => window.removeEventListener("wheel", onWheel);
-  }, [handleNext, handlePrev]);
+  }, [handleNext, handlePrev, isDetailOpen]);
 
   // --- GESTION DRAG & SWIPE ---
   const onStart = (clientX) => {
@@ -133,9 +157,17 @@ const Projects = () => {
                 if (e.changedTouches) onTouchEnd(e);
                 else onMouseUp(e);
               }}
+              onOpenDetail={handleOpenDetail}
             />
           </Canvas>
         </div>
+
+        <ProjectDetailModal
+          isOpen={isDetailOpen}
+          onClose={handleCloseDetail}
+          detail={currentDetail}
+          projectTitle={detailTitle}
+        />
 
         {/* UI LISTE (Desktop) */}
         <div className="hidden md:flex absolute inset-0 z-20 pointer-events-none flex-col justify-center">

@@ -11,6 +11,7 @@ const ProjectItem = ({
   totalCount,
   onDragStart,
   onDragEnd,
+  onOpenDetail,
 }) => {
   const groupRef = useRef();
   const { size } = useThree();
@@ -100,6 +101,7 @@ const ProjectItem = ({
             onTouchEnd={onDragEnd}
             onMouseDown={onDragStart}
             onMouseUp={onDragEnd}
+            onOpenDetail={onOpenDetail}
           />
         </div>
       </Html>
@@ -107,7 +109,13 @@ const ProjectItem = ({
   );
 };
 
-const Project3DViewer = ({ projects, activeIndex, onDragStart, onDragEnd }) => {
+const Project3DViewer = ({
+  projects,
+  activeIndex,
+  onDragStart,
+  onDragEnd,
+  onOpenDetail,
+}) => {
   return (
     <group position={[0, 0, 0]}>
       {projects.map((project, index) => (
@@ -116,9 +124,10 @@ const Project3DViewer = ({ projects, activeIndex, onDragStart, onDragEnd }) => {
           project={project}
           index={index}
           activeIndex={activeIndex}
-          totalCount={projects.length} // On passe le nombre total indispensable pour le calcul
+          totalCount={projects.length}
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
+          onOpenDetail={onOpenDetail}
         />
       ))}
     </group>

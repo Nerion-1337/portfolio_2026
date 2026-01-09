@@ -1,6 +1,8 @@
 import React from "react";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, Info } from "lucide-react";
+import DOMPurify from "dompurify";
 import StackList from "./StackList";
+import { projectDetails } from "../data/data";
 
 const ProjectCard = ({
   project,
@@ -8,8 +10,9 @@ const ProjectCard = ({
   onTouchEnd,
   onMouseDown,
   onMouseUp,
+  onOpenDetail,
 }) => {
-  // Image par défaut
+  // Image par défaut si aucune n'est fournie (placeholder gris foncé)
   const imageSrc =
     project.image ||
     "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop";
@@ -17,9 +20,17 @@ const ProjectCard = ({
   // État pour afficher les liens au clic (utile pour mobile)
   const [showLinks, setShowLinks] = React.useState(false);
 
+  // Vérifier si ce projet a des détails supplémentaires
+  const hasDetail = projectDetails.some((d) => d.title === project.title);
+
   const handleCardClick = () => {
     // On bascule l'affichage des liens au clic
     setShowLinks((prev) => !prev);
+  };
+
+  const handleOpenDetail = (e) => {
+    e.stopPropagation();
+    if (onOpenDetail) onOpenDetail(project);
   };
 
   return (
@@ -58,6 +69,17 @@ const ProjectCard = ({
               : "opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
           }`}
         >
+          {hasDetail && (
+            <button
+              onClick={handleOpenDetail}
+              onTouchEnd={handleOpenDetail}
+              onMouseDown={(e) => e.stopPropagation()}
+              className="p-3 bg-purple-600 rounded-full hover:bg-purple-500 text-white transition-colors shadow-lg shadow-purple-500/30 pointer-events-auto"
+              title="Voir plus de détails"
+            >
+              <Info size={20} />
+            </button>
+          )}
           {project.links.github && (
             <a
               href={project.links.github}
@@ -95,9 +117,12 @@ const ProjectCard = ({
         <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
           {project.title}
         </h3>
-        <div className="text-gray-400 text-sm mb-6 leading-relaxed grow">
-          {project.description}
-        </div>
+        <div
+          className="text-gray-400 text-sm mb-6 leading-relaxed grow"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(project.description),
+          }}
+        />
         <div className="border-t border-gray-700/50 mb-4"></div>
         <div className="mt-auto pt-1">
           <StackList stack={project.stack} id={project.id} />
