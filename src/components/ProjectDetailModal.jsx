@@ -187,8 +187,8 @@ const ImageZoomModal = ({ src, isOpen, onClose }) => {
           animate={{ scale: 1 }}
           src={src}
           alt="Zoom"
-          className="max-w-full max-h-full object-contain"
-          onClick={(e) => e.stopPropagation()}
+          className="max-w-full max-h-full object-contain cursor-zoom-out"
+          onClick={onClose}
         />
       )}
     </motion.div>,

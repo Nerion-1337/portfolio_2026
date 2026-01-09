@@ -79,6 +79,7 @@ export const projects = [
   {
     id: 15,
     title: "Smylife",
+    highlight: true,
     description:
       "Api BtB d'un algorithme de matching pour application de colocation.<br /><span class='font-bold text-blue-400'>Note :</span> Installation et gestion de l'hebergement sur VPS.",
     stack: [
@@ -101,6 +102,7 @@ export const projects = [
   {
     id: 1,
     title: "Miam Miam",
+    highlight: true,
     description:
       "Projet Personnel: Application web de recette participative permettant aux utilisateurs de gérer précisément leur consommation de macro et micro nutriments.<br /><span class='font-bold text-blue-400'>Tech :</span> Gestion API Google, Youtube, Stripe.",
     stack: [
@@ -364,7 +366,7 @@ export const projectDetails = [
       {
         type: "image",
         src: `${IMG_DETAIL_SMYLIFE}question.png`,
-        caption: "Architecture de l'API",
+        caption: "Exemple Question",
         position: "right",
       },
       {
@@ -380,7 +382,7 @@ export const projectDetails = [
       {
         type: "image",
         src: `${IMG_DETAIL_SMYLIFE}matching.png`,
-        caption: "Architecture de l'API",
+        caption: "Resultat Matching",
         position: "right",
       },
       {
@@ -425,7 +427,7 @@ export const projectDetails = [
   {
     title: "Miam Miam",
     header: "https://www.youtube.com/watch?v=n0g97rHkMho", // Carousel
-contenu: [
+    contenu: [
       {
         type: "title",
         content: "Vue d'ensemble du Projet",
@@ -439,10 +441,10 @@ contenu: [
         type: "title",
         content: "Suivi Nutritionnel & Algorithmes",
       },
-            {
+      {
         type: "image",
         src: `${IMG_DETAIL_MIAMMIAM}calendrier.png`,
-        caption: "Architecture de l'API",
+        caption: "Calendrier",
         position: "right",
       },
       {
@@ -477,6 +479,6 @@ contenu: [
         content:
           "L'analyse post-développement a permis d'identifier des axes d'amélioration majeurs pour la version v2 : <br/><br/> <ul class='list-disc pl-5 space-y-2'><li><strong>Performance BDD :</strong> Mise en place d'index SQL (non présents initialement) et optimisation des transactions en regroupant les requêtes.</li><li><strong>Migration Stack :</strong> Transition de Express vers <strong>Hono</strong> pour la rapidité, et de MySQL vers <strong>PostgreSQL</strong> pour une meilleure scalabilité long terme.</li><li><strong>UI/UX :</strong> Passage de Sass à <strong>Tailwind CSS</strong> pour une organisation plus modulaire et une maintenance simplifiée.</li></ul>",
       },
-    ]
+    ],
   },
 ];

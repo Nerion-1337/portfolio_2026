@@ -1,5 +1,5 @@
 import React from "react";
-import { Github, ExternalLink, Info } from "lucide-react";
+import { Github, ExternalLink, Info, Star } from "lucide-react";
 import DOMPurify from "dompurify";
 import StackList from "./StackList";
 import { projectDetails } from "../data/data";
@@ -35,7 +35,11 @@ const ProjectCard = ({
 
   return (
     <div
-      className="group relative flex flex-col h-full bg-gray-900 rounded-xl overflow-hidden border border-gray-800 shadow-2xl transform-gpu subpixel-antialiased pointer-events-auto cursor-grab active:cursor-grabbing"
+      className={`group relative flex flex-col h-full bg-gray-900 rounded-xl overflow-hidden shadow-2xl transform-gpu subpixel-antialiased pointer-events-auto cursor-grab active:cursor-grabbing ${
+        project.highlight
+          ? "border-2 border-blue-500/50 shadow-blue-900/20"
+          : "border border-gray-800"
+      }`}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onMouseDown={onMouseDown}
@@ -44,6 +48,12 @@ const ProjectCard = ({
     >
       {/* --- Image Cover --- */}
       <div className="relative h-48 overflow-hidden bg-gray-900 border-b border-gray-800">
+        {project.highlight && (
+          <div className="absolute top-3 left-3 z-30 flex items-center gap-1.5 px-3 py-1 bg-blue-600/90 text-white text-xs font-bold rounded-full shadow-lg backdrop-blur-sm border border-blue-400/30">
+            <Star size={12} fill="currentColor" className="text-gray-300" />
+            <span>Featured</span>
+          </div>
+        )}
         <div
           className={`absolute inset-0 bg-gray-900/20 group-hover:bg-transparent transition-colors duration-500 z-10 ${
             showLinks ? "bg-transparent" : ""
