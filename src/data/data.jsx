@@ -23,6 +23,8 @@ import {
   SiPm2,
   SiVite,
   SiDocker,
+  SiAdminer,
+  SiPortainer,
 } from "react-icons/si";
 import { GrMysql } from "react-icons/gr";
 
@@ -92,7 +94,9 @@ export const projects = [
       { name: "PostgreSQL", icon: SiPostgresql },
       { name: "Ubuntu", icon: SiUbuntu },
       { name: "Nginx", icon: SiNginx },
-      { name: "PM2", icon: SiPm2 },
+      { name: "Docker", icon: SiDocker },
+      { name: "Adminer", icon: SiAdminer },
+      { name: "Portainer", icon: SiPortainer },
     ],
     image: `${IMG_PATH}Smylife.png`,
     links: {
