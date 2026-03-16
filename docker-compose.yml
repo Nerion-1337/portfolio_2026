@@ -1,0 +1,17 @@
+name: portfolio_2026
+version: '3.8'
+
+services:
+  frontend_smylife_b2c_dev:
+    container_name: portfolio_2026
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5175:5175"
+    command: npm run dev -- --host --port 5175   
+    volumes:
+      - .:/app                     
+      - /app/node_modules          
+      - ./.env:/app/.env           

@@ -3,6 +3,7 @@ import { Github, ExternalLink, Info, Star } from "lucide-react";
 import DOMPurify from "dompurify";
 import StackList from "./StackList";
 import { projectDetails } from "../data/data";
+import Tooltip from "./Tooltip";
 
 const ProjectCard = ({
   project,
@@ -86,44 +87,47 @@ const ProjectCard = ({
           }`}
         >
           {hasDetail && (
-            <button
-              onClick={handleOpenDetail}
-              onTouchEnd={handleOpenDetail}
-              onMouseDown={(e) => e.stopPropagation()}
-              className="p-3 bg-purple-600 rounded-full hover:bg-purple-500 text-white transition-colors shadow-lg shadow-purple-500/30 pointer-events-auto cursor-pointer"
-              title="Voir plus de détails"
-            >
-              <Info size={20} />
-            </button>
+            <Tooltip text="Voir plus de détails" position="bottom">
+              <button
+                onClick={handleOpenDetail}
+                onTouchEnd={handleOpenDetail}
+                onMouseDown={(e) => e.stopPropagation()}
+                className="p-3 bg-purple-600 rounded-full hover:bg-purple-500 text-white transition-colors shadow-lg shadow-purple-500/30 pointer-events-auto cursor-pointer"
+              >
+                <Info size={20} />
+              </button>
+            </Tooltip>
           )}
           {project.links.github && (
-            <a
-              href={project.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black text-white transition-colors shadow-lg border border-gray-600 hover:border-white pointer-events-auto"
-              title="Voir le code source"
-              onClick={(e) => e.stopPropagation()}
-              onTouchEnd={(e) => e.stopPropagation()}
-              onMouseDown={(e) => e.stopPropagation()}
-            >
-              <Github size={20} />
-            </a>
+            <Tooltip text="Voir le code source" position="bottom">
+              <a
+                href={project.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black text-white transition-colors shadow-lg border border-gray-600 hover:border-white pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                <Github size={20} />
+              </a>
+            </Tooltip>
           )}
 
           {project.links.demo && (
-            <a
-              href={project.links.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-blue-600 rounded-full hover:bg-blue-400 text-white transition-colors shadow-lg shadow-blue-500/30 pointer-events-auto"
-              title="Voir le site en direct"
-              onClick={(e) => e.stopPropagation()}
-              onTouchEnd={(e) => e.stopPropagation()}
-              onMouseDown={(e) => e.stopPropagation()}
-            >
-              <ExternalLink size={20} />
-            </a>
+            <Tooltip text="Voir le site en direct" position="bottom">
+              <a
+                href={project.links.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-blue-600 rounded-full hover:bg-blue-400 text-white transition-colors shadow-lg shadow-blue-500/30 pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                <ExternalLink size={20} />
+              </a>
+            </Tooltip>
           )}
         </div>
       </div>
