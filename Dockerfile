@@ -1,16 +1,15 @@
 FROM node:20-slim
 WORKDIR /app
 
+# Installation de git (nécessaire pour votre config)
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
-RUN git config --global user.email "nerion.1337.dev@gmail.com" && \
-    git config --global user.name "Nerion" && \
-    git config --global --add safe.directory /app
 
 COPY package*.json ./
+# On installe les dépendances
 RUN npm install
 
-COPY . .
-RUN npm run build
+# On ne copie pas tout et on ne build pas ici ! 
+# C'est le volume dans docker-compose qui s'en chargera.
 
 EXPOSE 5175
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "dev"]

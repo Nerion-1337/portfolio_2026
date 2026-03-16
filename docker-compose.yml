@@ -9,8 +9,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "5175:5175"
-    command: npm run dev -- --host --port 5175   
+      - "5175:5175"  
     volumes:
       - .:/app                     
       - /app/node_modules          
