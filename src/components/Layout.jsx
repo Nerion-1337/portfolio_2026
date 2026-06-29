@@ -192,7 +192,7 @@ const Layout = ({ children }) => {
                 {isHovered && (
                   <motion.img
                     key="hover-avatar"
-                    src="/images/thibaut.png"
+                    src="/images/thibaut.gif"
                     alt={`${personalInfo.name} avatar`}
                     // --- Animation Framer Motion ---
                     // IMPORTANT : On utilise x: "-50%" partout pour corriger le centrage horizontal.
@@ -209,7 +209,7 @@ const Layout = ({ children }) => {
                       stiffness: 300,
                       damping: 20,
                     }}
-                    className="absolute left-1/2 top-full mt-4 w-12 h-12 rounded-full object-cover shadow-lg border-2 border-white/20 pointer-events-none"
+                    className="absolute left-1/2 top-full mt-6 w-15 h-15 rounded-full object-cover shadow-lg border-2 border-white/20 pointer-events-none"
                   />
                 )}
               </AnimatePresence>

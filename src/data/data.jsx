@@ -352,7 +352,7 @@ export const projects = [
 export const projectDetails = [
   {
     title: "Smylife",
-    header: `${IMG_PATH}Smylife.png`,
+    header: `https://www.youtube.com/watch?v=iCJAVMMpQ-8`,
     contenu: [
       {
         type: "title",
